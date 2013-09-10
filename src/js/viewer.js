@@ -496,7 +496,8 @@ $(function() {
     preset.options.selector = options.selector;
     preset.options.attributes = $.extend(true, [], options.attributes);
     preset.options.filters = $.extend(true, [], options.filters);
-    
+    preset.id = utilityFn.generateUUID();
+
     // remove existing presets with the same name, append new preset, and save
     presetList = presetList.filter(function(p) { return p.name !== preset.name; });
     presetList.unshift(preset);

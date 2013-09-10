@@ -39,12 +39,12 @@
 
 /**
  * Plugin that generates an object containing parameters of a form. Allows
- * Railsesque multi-dimensional parameter names (eg. 'user[name]' and 
+ * Railsesque multi-dimensional parameter names (eg. 'user[name]' and
  * 'users[][name]').
  */
 (function($){
   /**
-   * Splits a parameter name into an array of tokens. Empty brackets are 
+   * Splits a parameter name into an array of tokens. Empty brackets are
    * tokenized as `undefined` and indicate that the preceding token should be
    * considered an array.
    */
@@ -57,35 +57,35 @@
       path.push(match[1] || undefined);
       s = match[2];
     }
-    
+
     // if there is a remaining string, then it was probably malformed, so warn
     // user and return a single-segment path consisting of just str (so that
     // code doesn't break)
     if (s) {
-      if (console && console.warn) { 
-        console.warn('Malformed path: ' + str); 
+      if (console && console.warn) {
+        console.warn('Malformed path: ' + str);
       }
       return [str];
     }
-    
+
     return path;
   }
-  
+
   $.fn.serializeParams = function() {
     var result = {};
 
     $.each($(this).serializeArray(), function() {
       var keys = _parseParam(this.name);
       var containers = [result];
-      
+
       for (var i = 0; i < keys.length; i++) {
         var container = containers[containers.length - 1];
 
         var key = keys[i];
         var keyIndicatesArray = keys[i+1] === undefined;
-        
+
         var leaf = (i === keys.length - 1);
-        
+
         // handle four cases:
         if (leaf && key === undefined) {
           // LEAF ARRAY
@@ -97,10 +97,10 @@
           if (container[key] === undefined) {
             container[key] = this.value;
           } else {
-            // collision! create an array here or add new element to an 
+            // collision! create an array here or add new element to an
             // ancestor array
             var lastUndefinedKey = keys.lastIndexOf(undefined);
-            
+
             if (lastUndefinedKey < 0) {
               container[key] = [container[key], this.value];
             } else {
@@ -110,7 +110,7 @@
                 }
                 containers.pop();
               }
-              
+
               containers[containers.length - 1].push({});
               i = i - 1;
               continue;
@@ -131,7 +131,7 @@
         }
       }
     });
-    
+
     return result;
   };
 }(jQuery));
@@ -147,11 +147,11 @@
     var node;
     var path = "";
     var tag, segment, siblings;
-    
+
     for (node = this.get(0); node && node.nodeType == 1; node = node.parentNode) {
       tag = node.tagName.toLowerCase();
       segment = tag;
-      
+
       // append index
       siblings = $(node).parent().children(tag);
       if (siblings.length > 1) {
@@ -160,8 +160,8 @@
         path = "/" + tag + path;
       }
     }
-    
-    return path;	
+
+    return path;
   };
 }(jQuery));
 
@@ -184,28 +184,28 @@
       });
     }
 
-    return str;  
+    return str;
   };
-  
+
   var path = function(el, options) {
     var path = [];
-    
+
     path.push(component(el, options));
-    el.parents().each(function(i,el) { 
+    el.parents().each(function(i,el) {
       path.push(component(this, options));
     }).get();
-    
+
     return path.reverse();
   };
-    
+
   $.fn.cssSelector = function(options) {
     var settings = {
-      tagName: true, 
-      id: true, 
-      classes: true, 
+      tagName: true,
+      id: true,
+      classes: true,
       attributes: false
     };
-    
+
     if (options) {
       $.extend(settings, options);
     }
@@ -251,3 +251,16 @@
   };
 }(jQuery));
 
+
+
+var utilityFn = {};
+
+utilityFn.generateUUID = function() {
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+    });
+    return uuid;
+};
