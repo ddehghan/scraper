@@ -144,7 +144,7 @@ if (!bit155.scraper.presets()) {
 
 // context menus
 var scrapeSimilarItem = chrome.contextMenus.create({
-  title: "Scrape similar...",
+  title: "V2-Scrape similar...",
   contexts: ['all'],
   onclick: function(info, tab) {
     var active = false;
