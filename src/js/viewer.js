@@ -365,57 +365,19 @@ Viewer.prototype.spreadsheet = function () {
 Viewer.prototype.spreadsheetPresetSave = function () {
     var self = this;
     var data = [];
-    var csv;
 
     var presetsList = bit155.scraper.presets();
 
-    // gather up data and convert to csv
-//    data.push($.map(presetsList || [], function (a) {
-//        return a.id || a.name;
-//    }));
-//    $.each(this.data().result || [], function (index, result) {
-//        data.push(result.values);
-//    });
-
-    data.push(['id','options']);
     $.each(presetsList || [], function (index, item) {
-        data.push([item.id || item.name, JSON.stringify(item.options)]);
-    });
-
-    csv = bit155.csv.csv(data);
-
-    // find the host tab so we can get its title
-    chrome.tabs.get(self.tabId(), function (tab) {
-        var request = {};
-        var dialog = $('<div>').addClass('progress');
-        var title = "My Presets";
-
-        // ask user for title
-        // title = prompt('Please enter a title for your Google spreadsheet:', title);
-        //     if (!title) {
-        //       return;
-        //     }
-
-        // tell user to wait
-        dialog.append($('<div style="margin: 30px; text-align: center"><img src="img/progress.gif"></div>'));
-        dialog.dialog({
-            closeOnEscape: true,
-            buttons: [],
-            resizable: false,
-            title: 'Exporting to Google Docs...',
-            modal: true
-        });
-
-        // send spreadsheet request to background.js
-        request.command = 'scraperSpreadsheet';
-        request.payload = {
-            title: title,
-            csv: csv
-        };
-        chrome.extension.sendRequest(request, function (response) {
-            dialog.dialog('close');
-            if (response.error) {
-                self.error(response.error);
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8000/save_preset",
+            data: {"preset_id": item.id || "xxxxxx", "name": item.name, "data": JSON.stringify(item.options)},
+            success: function (data) {
+                console.log("POST success");
+            },
+            error: function (data) {
+                console.log("POST error");
             }
         });
     });
