@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Scraper_V2",
-    "version": "1.7",
+    "version": "2.1",
     "description": "Scraper is a Google Chrome extension for getting data out of web pages and into spreadsheets.",
     "icons": {
         "16": "img/scraper16.png",
@@ -27,5 +27,6 @@
                 "js/contentscript.js"
             ]
         }
-    ]
+    ],
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
