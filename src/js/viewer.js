@@ -41,6 +41,9 @@
 var Viewer = function () {
 };
 
+var serverURL = "http://scraperv2.herokuapp.com/";
+var serverURL = "http://scraperv2.herokuapp.com/";
+
 /**
  * Contains the scrape data.
  */
@@ -371,8 +374,13 @@ Viewer.prototype.spreadsheetPresetSave = function () {
     $.each(presetsList || [], function (index, item) {
         $.ajax({
             type: "POST",
-            url: "http://localhost:8000/save_preset",
-            data: {"preset_id": item.id || "xxxxxx", "name": item.name, "data": JSON.stringify(item.options)},
+            url: serverURL + "save_preset",
+            data: {
+                "preset_id": item.id,
+                "name": item.name,
+                "domain": item.domain,
+                "url": item.url,
+                "data": JSON.stringify(item.options)},
             success: function (data) {
                 console.log("POST success");
             },
@@ -626,6 +634,8 @@ $(function () {
         preset.options.attributes = $.extend(true, [], options.attributes);
         preset.options.filters = $.extend(true, [], options.filters);
         preset.id = utilityFn.generateUUID();
+        preset.domain = "";
+        preset.url = "";
 
         // remove existing presets with the same name, append new preset, and save
         presetList = presetList.filter(function (p) {
@@ -656,6 +666,10 @@ $(function () {
             viewer.reloadPresets();
         }
     });
+
+    $("#loggedin-test").html("<a href=" + serverURL + " target='_blank'>Login to share</a>");
+
+
     viewer.reloadPresets();
 
     // reset button
@@ -668,6 +682,8 @@ $(function () {
         return false;
     });
 
+
+    //BUG  maybe?
     // language
     $('#options-language').change(function () {
         var lang = $('#options-language').val();

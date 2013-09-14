@@ -114,33 +114,33 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 });
 
 // make some default presets
-if (!bit155.scraper.presets()) {
-  bit155.scraper.presets([
-	  { 
-	    name: 'Paragraph Text', 
-	    options: {
-	      language: 'xpath',
-	      selector: '//p',
-	      attributes: [
-	        { xpath: '.', name: 'Text' }
-	      ],
-	      filters: [ 'empty' ]
-	    }
-	  },
-	  { 
-	    name: 'Links', 
-	    options: {
-	      language: 'xpath',
-	      selector: '//a',
-	      attributes: [
-	        { xpath: '.', name: 'Link' },
-	        { xpath: '@href', name: 'URL' }
-	      ],
-	      filters: ['empty']
-	    }
-	  }
-	]);
-};
+//if (!bit155.scraper.presets()) {
+//  bit155.scraper.presets([
+//	  {
+//	    name: 'Paragraph Text',
+//	    options: {
+//	      language: 'xpath',
+//	      selector: '//p',
+//	      attributes: [
+//	        { xpath: '.', name: 'Text' }
+//	      ],
+//	      filters: [ 'empty' ]
+//	    }
+//	  },
+//	  {
+//	    name: 'Links',
+//	    options: {
+//	      language: 'xpath',
+//	      selector: '//a',
+//	      attributes: [
+//	        { xpath: '.', name: 'Link' },
+//	        { xpath: '@href', name: 'URL' }
+//	      ],
+//	      filters: ['empty']
+//	    }
+//	  }
+//	]);
+//};
 
 // context menus
 var scrapeSimilarItem = chrome.contextMenus.create({
